@@ -4,7 +4,11 @@ const path = require('path');
 const app = express();
 const port = 3000;
 var morgan = require('morgan');
+const route = require('./routes')
+const db = require('./config/db')
 
+
+db.connect()
 
 app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,9 +18,9 @@ app.engine('hbs', express_hbs({
 }));
 app.set('views', path.join(__dirname, 'resources/views'))
 app.set('view engine', 'hbs');
-app.get('/', (req, res) => {
-    res.render('home');
-})
+
+// Routes init
+route(app)
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
